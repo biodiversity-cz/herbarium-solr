@@ -1,0 +1,98 @@
+<schema name="specimens" version="1.6">
+
+    <!-- ========= FIELD TYPES ========= -->
+
+    <fieldType name="text_general_cz" class="solr.TextField" positionIncrementGap="100">
+        <analyzer type="index">
+            <tokenizer class="solr.ICUTokenizerFactory"/>
+            <filter class="solr.ICUFoldingFilterFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+        <analyzer type="query">
+            <tokenizer class="solr.ICUTokenizerFactory"/>
+            <filter class="solr.ICUFoldingFilterFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+    </fieldType>
+
+    <!-- exact match -->
+    <fieldType name="string_ci" class="solr.StrField" sortMissingLast="true"/>
+
+    <!-- autocomplete -->
+    <fieldType name="text_edge" class="solr.TextField">
+        <analyzer>
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="20"/>
+        </analyzer>
+    </fieldType>
+
+    <!-- date -->
+    <fieldType name="pdate" class="solr.DatePointField"/>
+
+    <!-- fulltext catch-all -->
+    <fieldType name="text_fulltext" class="solr.TextField">
+        <analyzer>
+            <tokenizer class="solr.ICUTokenizerFactory"/>
+            <filter class="solr.ICUFoldingFilterFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+    </fieldType>
+ <!--  FIELDS -->
+    <!-- ID -->
+    <field name="id" type="string_ci" indexed="true" stored="true" required="true"/>
+
+    <!-- text -->
+    <field name="title" type="text_general_cz" stored="true"/>
+    <field name="herbarium_acronym" type="text_general_cz"/>
+    <field name="description" type="text_general_cz"/>
+    <field name="locality" type="text_general_cz"/>
+
+    <!-- people -->
+    <field name="creator" type="text_general_cz"/>
+    <field name="recorded_by" type="text_general_cz"/>
+
+    <!-- taxonomy -->
+    <field name="scientific_name" type="text_general_cz"/>
+    <field name="scientific_name_exact" type="string_ci"/>
+    <field name="genus" type="string_ci" docValues="true"/>
+    <field name="family" type="string_ci" docValues="true"/>
+    <field name="specific_epithet" type="string_ci"/>
+
+    <!-- geo -->
+    <field name="country" type="string_ci" docValues="true"/>
+    <field name="country_code" type="string_ci" docValues="true"/>
+
+    <!-- dates -->
+    <field name="event_date" type="pdate" docValues="true"/>
+    <field name="created" type="pdate"/>
+
+    <!-- identifiers -->
+    <field name="catalog_number" type="string_ci"/>
+    <field name="collection_code" type="string_ci" multiValued="true" docValues="true"/>
+
+    <!-- misc -->
+    <field name="basis_of_record" type="string_ci" docValues="true"/>
+    <field name="material_sample_id" type="string_ci"/>
+
+    <field name="previous_identifications" type="text_general_cz" multiValued="true"/>
+
+    <!-- fulltext -->
+    <field name="text" type="text_fulltext" multiValued="true"/>
+
+    <!-- autocomplete -->
+    <field name="scientific_name_suggest" type="text_edge"/>
+    <field name="collector_suggest" type="text_edge"/>
+
+    <!-- fulltext -->
+    <copyField source="title" dest="text"/>
+    <copyField source="description" dest="text"/>
+    <copyField source="scientific_name" dest="text"/>
+    <copyField source="locality" dest="text"/>
+    <copyField source="creator" dest="text"/>
+    <copyField source="recorded_by" dest="text"/>
+
+    <!-- autocomplete -->
+    <copyField source="scientific_name" dest="scientific_name_suggest"/>
+    <copyField source="recorded_by" dest="collector_suggest"/>
+</schema>
