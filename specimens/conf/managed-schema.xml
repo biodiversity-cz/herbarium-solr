@@ -87,7 +87,7 @@
         <analyzer>
             <tokenizer name="keyword"/>
             <filter name="lowercase"/>
-            <filter name="edgeNGram" minGramSize="2" maxGramSize="10"/>
+<!--            <filter name="edgeNGram" minGramSize="2" maxGramSize="10"/>-->
         </analyzer>
     </fieldType>
 
