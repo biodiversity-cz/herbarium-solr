@@ -44,6 +44,7 @@
     <!-- autocomplete -->
     <field name="scientific_name_suggest" type="text_edge"/>
     <field name="collector_suggest" type="text_edge"/>
+    <field name="locality_suggest" type="text_edge"/>
 
     <!-- fulltext -->
     <field name="_text_" type="text_general" indexed="true" stored="false" multiValued="true"/>
@@ -59,6 +60,7 @@
     <!-- autocomplete -->
     <copyField source="scientific_name" dest="scientific_name_suggest"/>
     <copyField source="recorded_by" dest="collector_suggest"/>
+    <copyField source="locality" dest="locality_suggest"/>
 
     <!-- The StrField type is not analyzed, but indexed/stored verbatim. -->
     <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
@@ -83,9 +85,9 @@
     <!-- autocomplete -->
     <fieldType name="text_edge" class="solr.TextField">
         <analyzer>
-            <tokenizer name="standard"/>
+            <tokenizer name="keyword"/>
             <filter name="lowercase"/>
-            <!--            <filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="20"/>-->
+            <filter name="edgeNGram" minGramSize="2" maxGramSize="10"/>
         </analyzer>
     </fieldType>
 
