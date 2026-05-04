@@ -17,7 +17,9 @@
     <!-- date -->
     <fieldType name="pdate" class="solr.DatePointField"/>
     <!-- dates -->
-    <field name="event_date" type="pdate" docValues="true"/>
+    <field name="event_date_from" type="pdate" indexed="true" stored="true" docValues="true"/>
+    <field name="event_date_to"   type="pdate" indexed="true" stored="true" docValues="true"/>
+    <field name="event_date_raw"  type="string" indexed="false" stored="true"/>
     <field name="created" type="pdate"/>
 
     <!-- taxonomy -->
