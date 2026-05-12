@@ -48,10 +48,21 @@
     <field name="collector_suggest" type="text_edge"/>
     <field name="locality_suggest" type="text_edge"/>
 
+    <!--
+        Facet fields (string + docValues=true).
+        These are copy-field targets used exclusively for faceting and filtering.
+        They are NOT tokenized, so exact-match facet counts work correctly.
+        Re-index required after adding these fields.
+    -->
+    <field name="scientific_name_facet" type="strings" multiValued="true" docValues="true" stored="false"/>
+    <field name="creator_facet"         type="strings" multiValued="true" docValues="true" stored="false"/>
+    <field name="locality_facet"        type="strings" multiValued="true" docValues="true" stored="false"/>
+    <field name="herbarium_acronym_facet" type="strings" multiValued="true" docValues="true" stored="false"/>
+
     <!-- fulltext -->
     <field name="_text_" type="text_general" indexed="true" stored="false" multiValued="true"/>
 
-    <!-- fulltext -->
+    <!-- fulltext copy -->
     <copyField source="title" dest="_text_"/>
     <copyField source="description" dest="_text_"/>
     <copyField source="scientific_name" dest="_text_"/>
@@ -59,10 +70,16 @@
     <copyField source="creator" dest="_text_"/>
     <copyField source="recorded_by" dest="_text_"/>
 
-    <!-- autocomplete -->
+    <!-- autocomplete copy -->
     <copyField source="scientific_name" dest="scientific_name_suggest"/>
     <copyField source="recorded_by" dest="collector_suggest"/>
     <copyField source="locality" dest="locality_suggest"/>
+
+    <!-- facet copy (exact string values for faceting) -->
+    <copyField source="scientific_name" dest="scientific_name_facet"/>
+    <copyField source="creator"         dest="creator_facet"/>
+    <copyField source="locality"        dest="locality_facet"/>
+    <copyField source="herbarium_acronym" dest="herbarium_acronym_facet"/>
 
     <!-- The StrField type is not analyzed, but indexed/stored verbatim. -->
     <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
