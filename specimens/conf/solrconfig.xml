@@ -43,7 +43,7 @@
     <lst name="suggester">
       <str name="name">taxonSuggest</str>
       <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
-      <str name="field">scientific_name_suggest</str>
+      <str name="field">scientific_name_facet</str>
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="buildOnStartup">true</str>
     </lst>
@@ -51,14 +51,14 @@
     <lst name="suggester">
       <str name="name">creatorSuggest</str>
       <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
-      <str name="field">collector_suggest</str>
+      <str name="field">collector_facet</str>
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="buildOnStartup">true</str>
     </lst>
     <lst name="suggester">
       <str name="name">localitySuggest</str>
       <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
-      <str name="field">locality_suggest</str>
+      <str name="field">locality_facet</str>
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="buildOnStartup">true</str>
     </lst>
